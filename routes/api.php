@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DefinicoesInputController;
+use App\Http\Controllers\ProdutoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +20,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
+Route::get('getDefinicoesInput', [DefinicoesInputController::class, 'getDefinicoesInput']);
+Route::post('cadastrarProduto', [ProdutoController::class, 'cadastrarProduto']);
+Route::get('produto/{id}', [ProdutoController::class, 'pegarProduto']);
+Route::get('produtos', [ProdutoController::class, 'pegarProdutos']);
+// Route::get('getProdutos', [ProdutoController::class, 'pegarProdutos']);
 // Route::get('users', [Controller::class, 'getUsers']);
 Route::middleware('auth:api')->get('users', [Controller::class, 'getUsers']);
+// Route::middleware('auth:api')->get('getDefinicoesInput', [DefinicoesInputController::class, 'getDefinicoesInput']);
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

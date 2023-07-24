@@ -7,10 +7,6 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function oi(LoginRequest $request)
-    {
-        dd('oi');
-    }
     public function login(LoginRequest $request)
     {
         $input = $request->validated();
