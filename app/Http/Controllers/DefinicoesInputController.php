@@ -12,6 +12,7 @@ class DefinicoesInputController extends Controller
         return [
             'tamanhos' => DB::table('tamanhos')->get(),
             'categorias' => DB::table('categorias')->get(),
+            'segmentos' => DB::table('segmentos')->get(),
             'tecidos' => DB::table('tecidos')->get(),
             'formas_pagamento' => DB::table('formas_pagamento')->get(),
         ];

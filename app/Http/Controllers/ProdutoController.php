@@ -14,6 +14,11 @@ class ProdutoController extends Controller
         // return Produto::insert($request->toArray());
     }
 
+    public function atualizarProduto($id, Request $request)
+    {
+        return Produto::atualizarProduto($id, $request->toArray());
+    }
+
     public static function pegarProduto($id)
     {
         return Produto::with(['categoria','tecido', 'tamanhos'])->find($id);
@@ -25,6 +30,6 @@ class ProdutoController extends Controller
 
     public function pegarProdutos()
     {
-        return Produto::with(['categoria', 'tecido'])->get();        
+        return Produto::with(['categoria', 'tecido', 'tamanhos'])->get();        
     }
 }

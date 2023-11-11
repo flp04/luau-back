@@ -21,10 +21,16 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        $user = auth()->user();
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'profile_img' => $user->img_profile
+            // 'user' => [
+            //     // Outras colunas que você deseja incluir
+            // ]
         ]);
     }
 

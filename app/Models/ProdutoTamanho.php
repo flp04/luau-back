@@ -11,9 +11,16 @@ class ProdutoTamanho extends Model
 
     protected $table = 'produtos_tamanhos';
 
+    public static function setQuantidade($item)
+    {
+        $produto = self::where('produto_id', $item['produto_id'])->get();
+        $produto->quantidade = $item;
+        $produto->save();
+    }
+
     // public function produtos()
     // {
-    //     return $this->belongsToMany(Produto::class, 'produtos_tamanhos', 'tamanho_id', 'produto_id')
+    //     return $this->belongsTo(Produto::class, 'produtos_tamanhos', 'tamanho_id', 'produto_id')
     //         ->withPivot('quantidade');
     // }
 }

@@ -12,7 +12,7 @@ class Produto extends Model
 
     public function categoria()
     {
-        return $this->belongsTo(Tecido::class, 'categoria_id');
+        return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 
     public function tecido()
@@ -22,10 +22,26 @@ class Produto extends Model
 
     public function tamanhos()
     {
-        return $this->belongsToMany(ProdutoTamanho::class, 'produtos_tamanhos', 'produto_id', 'tamanho_id')
-            ->withPivot('quantidade')
-            ->withTimestamps();
+        return $this->belongsToMany(Tamanho::class, 'produtos_tamanhos', 'produto_id', 'tamanho_id')
+            ->withPivot('quantidade');
     }
+
+    public function produtosTamanhos()
+    {
+        return $this->hasMany(ProdutosTamanhos::class, 'produto_id');
+    }
+
+    // public function precosVenda()
+    // {
+    //     return $this->hasMany(PrecoVendaProduto::class, 'produto_id');
+    // }
+    
+    // public function tamanhos()
+    // {
+    //     return $this->belongsTo(ProdutoTamanho::class, 'produtos_tamanhos', 'produto_id', 'tamanho_id')
+    //         ->withPivot('quantidade')
+    //         ->withTimestamps();
+    // }
 
     public static function cadastrarProduto($request)
     {
@@ -34,14 +50,42 @@ class Produto extends Model
             'nome' => $request['nome'],
             'tecido_id' => $request['tecido_id'],
             'descricao' => $request['descricao'],
+            'preco_venda' => $request['preco_venda'],
         ];
+        
         $produto_id = self::insertGetId($produto);
 
         self::salvarProdutoTamanhos($produto_id, $request['tamanhos']);
 
-        if ($request['preco_venda'] > 0) {
-            self::salvarPrecoVendaProduto($produto_id, $request['preco_venda']);
-        }
+    }
+
+    public static function atualizarProduto($id, $request)
+    {
+        $produto = self::find($id);
+
+        $produto->categoria_id = $request['categoria_id'];
+        $produto->nome = $request['nome'];
+        $produto->tecido_id = $request['tecido_id'];
+        $produto->descricao = $request['descricao'];
+        $produto->preco_venda = $request['preco_venda'];
+
+        $produto->save();
+        
+        // $produto =
+        // if ($request['preco_venda'] > 0) {
+        //     self::salvarPrecoVendaProduto($id, $request['preco_venda']);
+        // }
+        // $produto = [
+        //     'categoria_id' => $request['categoria_id'],
+        //     'nome' => $request['nome'],
+        //     'tecido_id' => $request['tecido_id'],
+        //     'descricao' => $request['descricao'],
+        //     'preco_venda' => $request['preco_venda'],
+        // ];
+        
+
+        // self::salvarProdutoTamanhos($produto_id, $request['tamanhos']);
+
     }
 
     public static function salvarProdutoTamanhos($produto_id, $tamanhos)
